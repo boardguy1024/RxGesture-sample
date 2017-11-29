@@ -7,19 +7,27 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import RxGesture
+
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var blockView: UIView!
+    
+    let bag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        blockView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                print("block view tapped!!")
+            })
+            .disposed(by: bag)
+
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
